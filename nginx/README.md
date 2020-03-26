@@ -15,5 +15,5 @@ helm upgrade -i nginx-ingress stable/nginx-ingress \
 Configure the prometheus operator to scrape `nginx-ingress-controller`
 ```
 kubectl apply -f nginx-prometheus-sa.yaml
-kubectl apply -f nginx-prometheus-sa.yaml
+kubectl apply -f nginx-prometheus.yaml
 ```
