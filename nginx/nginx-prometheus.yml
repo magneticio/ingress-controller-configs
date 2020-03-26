@@ -1,0 +1,45 @@
+---
+# Service for data from prometheus exporters for nginx ingress
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-prometheus
+spec:
+  selector:
+    prometheus: nginx-prometheus
+  ports:
+  - name: web
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  type: NodePort
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: nginx-prometheus
+spec:
+  scrapeInterval: "5s"
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      app: nginx-ingress
+  resources:
+    requests:
+      memory: 400Mi
+  enableAdminAPI: true
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-ingress
+  labels:
+    app: nginx-ingress
+spec:
+  selector:
+    matchLabels:
+      app: nginx-ingress
+  endpoints:
+    - targetPort: 10245
+      interval: 30s
+      path: /
