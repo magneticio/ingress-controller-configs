@@ -1,0 +1,45 @@
+---
+# Service for data from prometheus exporters for gloo ingress
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-prometheus
+spec:
+  selector:
+    prometheus: envoy-prometheus
+  ports:
+  - name: web
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  type: NodePort
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: envoy-prometheus
+spec:
+  scrapeInterval: "5s"
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      app: envoy
+  resources:
+    requests:
+      memory: 400Mi
+  enableAdminAPI: true
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: envoy
+  labels:
+    app: envoy
+spec:
+  selector:
+    matchLabels:
+      app: envoy
+  endpoints:
+    - targetPort: 8002
+      interval: 30s
+      path: /stats/prometheus
