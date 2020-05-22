@@ -20,7 +20,7 @@ metadata:
   name: envoy-prometheus
 spec:
   scrapeInterval: "5s"
-  serviceAccountName: prometheus
+  serviceAccountName: envoy-prometheus
   serviceMonitorSelector:
     matchLabels:
       app: envoy
