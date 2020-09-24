@@ -16,5 +16,5 @@ kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheu
 ## create service account, cluster role and binding
 kubectl apply -f nginx-prometheus-sa.yaml
 
-## instruct prometheus operator to create operated instance and with config for scraping NGINX controller
+## Configure the Prometheus operator to create operated instance with config for scraping the NGINX controller
 kubectl apply -f nginx-prometheus.yaml
