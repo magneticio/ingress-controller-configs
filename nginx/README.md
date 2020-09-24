@@ -1,19 +1,17 @@
 # nginx-ingress
 
-Create `nginx-ingress` namespace
+Run `deployment.sh`:
 ```
-kubectl create ns ingress-nginx
+./deployment.sh
 ```
+It should 
+* create ingress-nginx namespace
+* deploy nginx ingress controller
+* deploy prometheus operator
 
-Install NGINX with Helm v3:
-```
-helm upgrade -i nginx-ingress stable/nginx-ingress \
---namespace ingress-nginx \
---set controller.metrics.enabled=true
-```
+Please take into account that the deployment creates NGINX ingress controller service with name `nginx-ingress-ingress-nginx-controller`.
+It might require specifying additional argument in the RA deployment script invocation to specify service name of NGINX ingress controller service, e.g.
 
-Configure the prometheus operator to scrape `nginx-ingress-controller`
 ```
-kubectl apply -f nginx-prometheus-sa.yaml
-kubectl apply -f nginx-prometheus.yaml
+curl -sSL https://<INSTALL_SCRIPT_PATH>/install.sh | sh -s -- -e DEV -i nginx-ingress-ingress-nginx-controller <TOKEN>
 ```

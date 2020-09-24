@@ -23,7 +23,7 @@ spec:
   serviceAccountName: prometheus
   serviceMonitorSelector:
     matchLabels:
-      app: nginx-ingress
+      app: ingress-nginx
   resources:
     requests:
       memory: 400Mi
@@ -32,14 +32,18 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: nginx-ingress
+  name: ingress-nginx
   labels:
-    app: nginx-ingress
+    app: ingress-nginx
 spec:
+  endpoints:
+  - interval: 30s
+    targetPort: 10254
+#    port: metrics
+    path: "/metrics"
   selector:
     matchLabels:
-      app: nginx-ingress
-  endpoints:
-    - targetPort: 10245
-      interval: 30s
-      path: /
+      app.kubernetes.io/name: ingress-nginx
+  namespaceSelector:
+    matchNames:
+    - ingress-nginx
