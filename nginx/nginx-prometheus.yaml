@@ -23,7 +23,7 @@ spec:
   serviceAccountName: prometheus
   serviceMonitorSelector:
     matchLabels:
-      app: ingress-nginx
+      app: prometheus-monitor
   resources:
     requests:
       memory: 400Mi
@@ -34,7 +34,7 @@ kind: ServiceMonitor
 metadata:
   name: ingress-nginx
   labels:
-    app: ingress-nginx
+    app: prometheus-monitor
 spec:
   endpoints:
   - interval: 30s
