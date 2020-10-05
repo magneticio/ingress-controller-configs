@@ -23,7 +23,7 @@ spec:
   serviceAccountName: envoy-prometheus
   serviceMonitorSelector:
     matchLabels:
-      app: envoy
+      app: prometheus-monitor
   resources:
     requests:
       memory: 400Mi
@@ -34,7 +34,7 @@ kind: ServiceMonitor
 metadata:
   name: envoy
   labels:
-    app: envoy
+    app: prometheus-monitor
 spec:
   selector:
     matchLabels:
